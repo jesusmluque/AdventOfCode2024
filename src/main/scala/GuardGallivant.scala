@@ -18,7 +18,7 @@ object GuardGallivant:
   private def isGuardStackIn(mapa: Vector[Vector[String]], pos: (String, (Int, Int)), acc: Set[(String, (Int, Int))]): Boolean =
     if isOutOfMap(mapa, pos) then false
     else if mapa(pos._2._1)(pos._2._2) == "#" && acc.contains(pos) then true
-    else if mapa(pos._2._1)(pos._2._2) == "#" then isGuardStackIn(mapa, calculateNextPosition(pos), acc + pos)
+    else if mapa(pos._2._1)(pos._2._2) == "#" then isGuardStackIn(mapa, calculateNextDirection(pos), acc + pos)
     else
       pos match
         case  ("^", (x,y)) => isGuardStackIn(mapa, (pos._1, (pos._2._1 - 1, pos._2._2)), acc)
@@ -26,10 +26,10 @@ object GuardGallivant:
         case  ("v", (x,y)) => isGuardStackIn(mapa, (pos._1, (pos._2._1 + 1, pos._2._2)), acc)
         case  ("<", (x,y)) => isGuardStackIn(mapa, (pos._1, (pos._2._1, pos._2._2 - 1)), acc)
 
-  private def isOutOfMap(mapa: Vector[Vector[String]], pos: (String, (Int, Int))) = 
+  private def isOutOfMap(mapa: Vector[Vector[String]], pos: (String, (Int, Int))) =
     pos._2._1 == mapa.size || pos._2._2 == mapa(0).size || pos._2._1 < 0 || pos._2._2 < 0
-  
-  private def calculateNextPosition(pos: (String, (Int, Int))) = pos._1 match
+
+  private def calculateNextDirection(pos: (String, (Int, Int))) = pos._1 match
     case "^" => (">", (pos._2._1 + 1, pos._2._2))
     case ">" => ("v", (pos._2._1, pos._2._2 - 1))
     case "v" => ("<", (pos._2._1 - 1, pos._2._2))
@@ -48,7 +48,7 @@ object GuardGallivant:
   @tailrec
   private def route(mapa: Vector[Vector[String]], pos: (String, (Int, Int)), acc: Set[(Int,Int)]): Set[(Int,Int)] =
     if isOutOfMap(mapa, pos) then acc
-    else if mapa(pos._2._1)(pos._2._2) == "#" then route(mapa, calculateNextPosition(pos), acc)
+    else if mapa(pos._2._1)(pos._2._2) == "#" then route(mapa, calculateNextDirection(pos), acc)
     else
       pos match
         case  ("^", (x,y)) => route(mapa, (pos._1, (pos._2._1 - 1, pos._2._2)), acc + pos._2)
