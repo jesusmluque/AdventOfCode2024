@@ -17,5 +17,5 @@ object BridgeRepair:
     rawEquations.map: raw =>
       val Array(target, n) = raw.split(":")
       val numbers = n.trim.split("\\s+").map(_.toLong).toList
-      solveEquation(target.toLong, numbers)
-    .map(_.getOrElse(0L)).sum
+      solveEquation(target.toLong, numbers).getOrElse(0L)
+    .sum
