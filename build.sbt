@@ -9,3 +9,4 @@ lazy val root = (project in file("."))
 
 libraryDependencies += ("org.scalatest" %% "scalatest" % "3.2.19") // .withDottyCompat(scalaVersion.value)
 libraryDependencies += "org.scalacheck" %% "scalacheck" % "1.18.1" % "test"
+libraryDependencies += "org.scalaz" %% "scalaz-core" % "7.3.8"
